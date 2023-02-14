@@ -8,7 +8,10 @@ class triangleNumber{
 
     }
     public static Integer math_part(Integer n){
-        return n/2*(n+1);
+        Double tmp = n.doubleValue()/2;
+        Integer out = (int)(tmp*(n+1));
+
+        return out;
     }
     {
 
