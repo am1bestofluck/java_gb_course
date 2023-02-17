@@ -14,7 +14,8 @@ public class readFile {
     static final String inputFileName = "in.txt";
     public static void main(String[] args) {
         var lines = extractLines(inputFileName);
-        var args_out = parseArgs(lines); 
+        var args_out = parseArgs(lines);
+        System.out.println("");
     }
     public static ArrayList<String> extractLines(String filepath)
     {
@@ -35,18 +36,17 @@ public class readFile {
         out.put(keys[0], "default");
         out.put(keys[1], "default");// оказывается нельзя ложить null
         int index = 0;
-        Pattern base = Pattern.compile("(^a\\s+)(\\d+)",
+        Pattern base = Pattern.compile(String.format("(^%c\\s+)(\\d+)", keys[0]),
          Pattern.CASE_INSENSITIVE);
-        Pattern pow = Pattern.compile("(^b\\s+)(\\d+)",
+        Pattern pow = Pattern.compile(String.format("(^%c\\s+)(\\d+)", keys[1]),
          Pattern.CASE_INSENSITIVE);
-        Pattern value = Pattern.compile("\\d+");
         while (out.containsValue("default")) {
             try {
                 if (out.get(keys[0])=="default"){
                     Matcher findBase = base.matcher(lines.get(index));
                     if (findBase.find())
                     {
-                        System.out.println("match!");
+                        out.put(keys[0],findBase.group(2));
                         index++;
                         continue;
                     }
@@ -56,8 +56,8 @@ public class readFile {
                     Matcher findPow = pow.matcher(lines.get(index));
                     if (findPow.find())
                     {
-                        System.out.println("match!");
-                        // Pattern value = 
+
+                        out.put(keys[1],findPow.group(2));
                     }
                 }
                 if (!out.containsValue("default")){
@@ -67,8 +67,8 @@ public class readFile {
                     index++;
                 }
             } 
-            catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("File doesn't meet contract");
+            catch (IndexOutOfBoundsException e) {
+                System.out.println(String.format("File %s doesn't meet contract", inputFileName));
                 System.exit(0);
     
             }
