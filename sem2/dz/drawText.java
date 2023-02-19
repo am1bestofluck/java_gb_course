@@ -1,9 +1,11 @@
-//ctrlc ctrlv =\ 
-//https://javatutorial.net/display-text-and-graphics-java-jframe/
 
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+
+//ctrlc ctrlv =\ 
+//https://javatutorial.net/display-text-and-graphics-java-jframe/
 
 
 public class drawText extends JPanel{

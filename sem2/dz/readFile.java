@@ -1,4 +1,4 @@
-package sem2.dz;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,9 +13,9 @@ public class readFile {
     static final char[] keys = new char[]{'a','b'};
     static final String inputFileName = "in.txt";
     public static void main(String[] args) {
-        var lines = extractLines(inputFileName);
-        var args_out = parseArgs(lines);
-        System.out.println("");
+        // var lines = extractLines(inputFileName);
+        // var args_out = parseArgs(lines);
+        // System.out.println("");
     }
     public static ArrayList<String> extractLines(String filepath)
     {
@@ -36,9 +36,9 @@ public class readFile {
         out.put(keys[0], "default");
         out.put(keys[1], "default");// оказывается нельзя ложить null
         int index = 0;
-        Pattern base = Pattern.compile(String.format("(^%c\\s+)(\\d+)", keys[0]),
+        Pattern base = Pattern.compile(String.format("(^%c\\s+)(\\-?\\d+)", keys[0]),
          Pattern.CASE_INSENSITIVE);
-        Pattern pow = Pattern.compile(String.format("(^%c\\s+)(\\d+)", keys[1]),
+        Pattern pow = Pattern.compile(String.format("(^%c\\s+)(\\-?\\d+)", keys[1]),
          Pattern.CASE_INSENSITIVE);
         while (out.containsValue("default")) {
             try {
