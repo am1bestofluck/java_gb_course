@@ -42,7 +42,7 @@ public class init_collection {
             FileWriter temp = new FileWriter(unsortedPath,false);
             temp.flush();
             String tmp = pile.toString();
-            Pattern maskDigits = Pattern.compile("\\d+");
+            Pattern maskDigits = Pattern.compile("-?\\d+");
             Matcher extractDigits = maskDigits.matcher(tmp);
             while (extractDigits.find()){
                 temp.append(String.format("%s ",extractDigits.group(0)));
