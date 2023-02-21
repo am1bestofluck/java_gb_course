@@ -10,12 +10,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class init_collection {
     public static final String unsortedPath = "unsorted.txt";
+    public static final String sortedPath = "sorted.txt";
     public static final String defaultPath = 
     "https://github.com/am1bestofluck/java_gb_course";
     public static void main(String[] args) {
+        String pathFile_in = unsortedPath;
+        Path extractPwd = Paths.get(System.getProperty("user.dir"));
+            if (String.valueOf(extractPwd.getFileName()).equals("java_gb_course")){
+                pathFile_in = System.getProperty("user.dir")+ "\\sem3\\dz\\"
+                + unsortedPath;
+            }
         URL webPath = null;
         try {
             if (args.length == 1 ){
@@ -39,7 +48,7 @@ public class init_collection {
             }
             readPage.close();
 
-            FileWriter temp = new FileWriter(unsortedPath,false);
+            FileWriter temp = new FileWriter(pathFile_in,false);
             temp.flush();
             String tmp = pile.toString();
             Pattern maskDigits = Pattern.compile("-?\\d+");
