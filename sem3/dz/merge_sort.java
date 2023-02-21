@@ -1,9 +1,13 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
+import javax.sound.midi.Soundbank;
+
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.io.FileWriter;
@@ -25,15 +29,16 @@ public class merge_sort {
                 pathFile_out = System.getProperty("user.dir")+ "\\sem3\\dz\\"
                 + init_collection.sortedPath;                
             }
-        ArrayList<Long> content = parseLine(pathFile_in);
-        ArrayList<Long> answer = mergeSort(content);
+        List<Long> content = parseLine(pathFile_in);
+        // List<Long> content_ = (List<Long>) content;
+        List<Long> answer = mergeSort(content);
         inFile(answer, pathFile_out);
     }
 
 
-    public static ArrayList<Long> parseLine(String pathFile)
+    public static List<Long> parseLine(String pathFile)
     {
-        ArrayList<Long> out = new ArrayList<Long>();
+        List<Long> out = new ArrayList<Long>();
         StringBuffer tmp = new StringBuffer();
         try {
             
@@ -43,7 +48,13 @@ public class merge_sort {
             }
             String[] literals = tmp.toString().split(" ", tmp.toString().length());
             for (String string : literals) {
-                out.add(Long.valueOf(string));
+                try {
+                    out.add(Long.valueOf(string));
+                } catch (NumberFormatException e) {
+                    System.out.print("! ");
+                    System.out.println(string);
+                }
+                
             }
         } 
         catch (FileNotFoundException e) {
@@ -55,30 +66,77 @@ public class merge_sort {
         return out;
  
     }
-    public static ArrayList<Long> mergeSort(ArrayList<Long> in){
-        ArrayList<Long> out = in;
+    public static List<Long> ms(List<Long> in)
+    {
+        if (in.size() == 0 || in.size() == 1)
+        {
+            return in;
+        }
+        List<Long> Left = ms(in.subList(0, in.size()/2));
+        List<Long> Right =ms(in.subList(in.size()/2, in.size()-1));
+        Integer n =0, m =0, k = 0;
+        Long[] tmp = new Long[Left.size()+Right.size()];
+        while (n < Left.size() && m < Right.size()){
+            if (Left.get(n) <= Right.get(m))
+            {
+                tmp[k] = Left.get(n);
+                n++;
+            }
+            else{
+                tmp[k] = Right.get(m);
+                m++;
+            }
+            k++;
+        }
+        while (n< Left.size()) {
+            tmp [k] = Left.get(n);
+            n++;
+            k++;
+        }
+        while (m< Right.size()) {
+            tmp [k] = Left.get(m);
+            m++;
+            k++;
+        }
+        in = Arrays.asList(tmp);
+        return in;
+    }
+    
+
+
+    public static List<Long> mergeSort(List<Long> in){
+        List<Long> out = ms(in);
+        //сначала дробим массив на равные части;
+        //потом сортируем части(рекурсивно?)
+        //потом поэлементно собираем последний массив из отсортированных
         return out;
 
     }
     public static void inFile(Object content, String fileName){
-        if ( !(content instanceof ArrayList) && !(content instanceof String)){
+        if ( !(content instanceof ArrayList) && !(content instanceof String) &&
+        !(content instanceof List)){
             throw new UnsupportedOperationException("Not implemented");
         }
         StringBuilder writeThis = new StringBuilder();
         for (Object i: (List<Object>)content){
             writeThis.append(i.toString());
-            writeThis.append(" ");
+            writeThis.append("\n");
         }
         try{
-            FileWriter temp = new FileWriter(fileName,false);
+            FileWriter temp = new FileWriter(fileName,true);
+            temp.append(writeThis.toString());
             temp.flush();
-            temp.append(writeThis);
+            temp.close();
+
     }
         catch (IOException eof)
         {
             eof.getStackTrace();
         }
+        catch (Exception e)
+        {
+            e.getStackTrace();
+        }
         System.out.println("");
-
     }
 }
