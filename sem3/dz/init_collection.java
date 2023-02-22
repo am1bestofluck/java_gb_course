@@ -34,10 +34,13 @@ public class init_collection {
                 webPath = new URL(defaultPath);
             }
         } catch (MalformedURLException urle) {
-            System.out.println("""
-                Мразотная джава! Требует обработать
-                исключение которое теоретически МОЖЕТ выстрелить
-                """);
+            System.out.println("Мразотная джава!");
+            System.out.println("Требует обработать исключение которое");
+            System.out.println("теоретически МОЖЕТ выстрелить");
+            System.out.println("Строчки должны быть однострочными потому что ");
+            System.out.println("The Java feature 'Text Blocks' is only available with source level 15 and above");
+            System.out.println("Между \"быть джавистом\" и быть N. ВЫБЕРУ ВТОРОЕ ВСЕГДА");
+
             urle.getStackTrace();
         }
         try {

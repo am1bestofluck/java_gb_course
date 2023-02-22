@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javax.sound.midi.Soundbank;
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 
 import java.nio.file.Paths;
 import java.nio.file.Path;
@@ -29,8 +30,8 @@ public class merge_sort {
                 pathFile_out = System.getProperty("user.dir")+ "\\sem3\\dz\\"
                 + init_collection.sortedPath;                
             }
+        
         List<Long> content = parseLine(pathFile_in);
-        // List<Long> content_ = (List<Long>) content;
         List<Long> answer = mergeSort(content);
         inFile(answer, pathFile_out);
     }
@@ -68,14 +69,32 @@ public class merge_sort {
     }
     public static List<Long> ms(List<Long> in)
     {
+        if (in == null){
+            return null;
+        }
+        
         if (in.size() == 0 || in.size() == 1)
         {
             return in;
         }
-        List<Long> Left = ms(in.subList(0, in.size()/2));
-        List<Long> Right =ms(in.subList(in.size()/2, in.size()-1));
+        List<Long> Left = Collections.EMPTY_LIST;
+        List<Long> Right = Collections.EMPTY_LIST;
+        try{
+        Left = ms(in.subList(0, in.size()/2));}
+        catch( NullPointerException e)
+        {
+            System.out.println("");
+        }
+        try{
+        Right =ms(in.subList(in.size()/2, in.size()));}
+        catch (NullPointerException e)
+        {
+            System.out.println("");
+        }
         Integer n =0, m =0, k = 0;
         Long[] tmp = new Long[Left.size()+Right.size()];
+        
+        
         while (n < Left.size() && m < Right.size()){
             if (Left.get(n) <= Right.get(m))
             {
@@ -88,16 +107,18 @@ public class merge_sort {
             }
             k++;
         }
-        while (n< Left.size()) {
+
+
+        while (n< Left.size()-1) {
             tmp [k] = Left.get(n);
             n++;
             k++;
         }
-        while (m< Right.size()) {
+        while (m< Right.size()-1) {
             tmp [k] = Left.get(m);
             m++;
-            k++;
-        }
+            k++;}
+
         in = Arrays.asList(tmp);
         return in;
     }
