@@ -28,7 +28,9 @@ public class cWriter {
     }
     public void write_in(){
         String filePath = (System.getProperty("user.dir")
-        .equals("java_gb_course"))? String.join("",
+        .equals("java_gb_course") || System.getProperty("user.dir")
+        .equals("java_gb_course")
+        )? String.join("",
         new String[]{constants.explictPath,this.Path}): this.Path;
         try {
         FileWriter in_txt = new FileWriter(filePath,false);

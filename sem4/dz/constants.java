@@ -1,5 +1,3 @@
-// package sem4.dz;
-
 /**
  * constants
  */
