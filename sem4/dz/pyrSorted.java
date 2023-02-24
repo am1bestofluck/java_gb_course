@@ -6,18 +6,20 @@
  * pyrSort
  */
 public class pyrSorted {
-    Integer[] base;
-    Integer[] sorted;
+    BinSearchTree base;
+    BinSearchTree sorted;
     public static void main(String[] args) {
         
         }
-    public pyrSorted (Integer[] base){
+    public pyrSorted (BinSearchTree base){
         this.base = base;
     }
     private void inLinePyramidicSort(){
         this.sorted = this.base;
     }
-    public void ps() {
+    public BinSearchTree ps() {
+        // BinSearchTree sorted = new BinSearchTree()
         this.inLinePyramidicSort();
+        return this.sorted;
     }
 }

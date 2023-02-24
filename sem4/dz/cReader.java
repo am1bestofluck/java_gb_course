@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,19 +11,29 @@ public class cReader {
     public Integer[] content;
 
     public static void main(String[] args) {
-        // if 
+        cReader test = new cReader(constants.fileIn);
+        System.out.println(test.content);
     }
     public cReader(String path){
         ArrayList<Integer> tmp = new ArrayList<Integer>(); 
-        Scanner main = new Scanner(path);
-        while (main.hasNextLine()) {
-            String OnlyGetOnce = main.nextLine();
-            try{tmp.add(Integer.valueOf(OnlyGetOnce));}
-            catch( NumberFormatException numb)
-            {
-                System.out.println(String.format("Can't parse! {%s}", OnlyGetOnce));
+        try {
+            Scanner main = new Scanner(new File(path));
+            while (main.hasNextLine()) {
+                String OnlyGetOnce = main.nextLine();
+                try{
+                    tmp.add(Integer.valueOf(OnlyGetOnce));
+                } catch( NumberFormatException numb)
+                    {
+                        System.out.println(String.format("Can't parse! {%s}", OnlyGetOnce));
+                    }
             }
-        }
-        this.content = (Integer[]) tmp.toArray();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
     }
+    this.content = new Integer[tmp.size()];
+    for (int i = 0; i < tmp.size(); i++) {
+        content[i] = tmp.get(i);
+    }
+    System.out.println("");
+}
 }
