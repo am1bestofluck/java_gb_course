@@ -8,7 +8,9 @@ public class Main {
     public static void main(String[] args) {
         cWriter a = new cWriter(cWriter.randomize_incoming(constants.arraysize),constants.fileIn);
         a.write_in();
-        cWriter b = new cWriter(new Integer[]{0,1,2}, constants.fileOut);
+        cReader test = new cReader(constants.fileIn);
+        Integer[] asd = test.content;
+        cWriter b = new cWriter(asd, constants.fileOut);
         b.write_in();
     }
 }
