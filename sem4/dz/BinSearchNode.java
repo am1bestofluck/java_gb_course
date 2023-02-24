@@ -53,22 +53,7 @@ public class BinSearchNode {
         }
 
     }
-    public Integer[] returnSorted( BinSearchNode node){
-        ArrayList<Integer> tmp = new ArrayList<Integer>();
-        if (node != null) {
-            traverseInOrder(node.left);
-            tmp.add(node.value);
-            traverseInOrder(node.right);
-            tmp.add(node.value);
-        }
-        
-        Integer[] out = new Integer[tmp.size()];
-        for (int i = 0; i < tmp.size(); i++) {
-            out[i] = tmp.get(i);
-        }
-        
-        return out;
-    }
+    
     public static void main(String[] args) {
         
     }
