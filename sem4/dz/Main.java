@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 /**
  * main
@@ -20,12 +19,14 @@ public class Main {
             if (extracted.length >1) {
                 for (int i = 1; i < extracted.length; i++) {
                     node_.add(extracted[i]);
+                    // System.out.println(extracted[i]);
                 
                 }
-                System.out.println("");
             }
         }
-        node_.grabValues(node_);
+        node_.grabValues(node_.root);
+        // Integer[] tmp =(Integer[]) node_.sortedRecursionCheckout.toArray();
+        /* ну конечно оно так работать не будет, это же java */
         Integer[] tmp = new Integer[node_.sortedRecursionCheckout.size()];
         for (int i = 0; i < node_.sortedRecursionCheckout.size(); i++) {
             tmp[i] = node_.sortedRecursionCheckout.get(i);

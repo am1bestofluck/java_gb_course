@@ -5,8 +5,8 @@ import java.nio.file.Paths;
  */
 public class constants {
 
-    public static final Integer arraysize = 1000;
-    public static final Integer maxNum = 10000;
+    public static final Integer arraysize = 100000;
+    public static final Integer maxNum = arraysize*2;
 
     private static final String fileIn_ = "in.txt";
     private static final String fileOut_ = "out.txt";

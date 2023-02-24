@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * https://www.baeldung.com/java-binary-tree#:~:text=A%20binary%20tree%20is%20a,in%20the%20right%20sub%2Dtree.
  */
 public class BinSearchNode {
-    public ArrayList<Integer> sortedRecursionCheckout;
+    public ArrayList<Integer> sortedRecursionCheckout = new ArrayList<Integer>();
     BinSearchNode root;
     int value;
     BinSearchNode left;
@@ -21,7 +21,7 @@ public class BinSearchNode {
             return new BinSearchNode(value);
         }
     
-        if (value < current.    value) {
+        if (value < current.value) {
             current.left = addRecursive(current.left, value);
         } else if (value > current.value) {
             current.right = addRecursive(current.right, value);

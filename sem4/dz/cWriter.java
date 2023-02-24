@@ -24,30 +24,30 @@ public class cWriter {
         Random Unique = new Random();
         Integer[] out = new Integer[size];
         for (int i = 0; i < out.length; i++) {
-            tmp.add((Unique.nextBoolean())?  i+constants.arraysize+1 : i);
+            // tmp.add((Unique.nextBoolean())?  i+constants.arraysize+1 : i);
             tmp.add(i);
         }
 
         Collections.shuffle(tmp);
-        System.out.println("\n\n\nUNsorted\n\n\n");
+        // System.out.println("\n\n\nUNsorted\n\n\n");
         
         for (int i = 0; i < out.length; i++) {
             out[i] = tmp.get(i);
         }
-
         return out;
 
     }
     public void write_in(){
         String filePath = this.Path;
+        StringBuilder clip = new StringBuilder();
         try {
         FileWriter in_txt = new FileWriter(filePath,false);
-        in_txt.write("");
         for (Integer integer : this.content) {
-            in_txt.append(String.valueOf(integer));
-            in_txt.append("\n");
+            clip.append(String.valueOf(integer));
+            clip.append("\n");
             
         }
+        in_txt.write(clip.toString());
         in_txt.flush();
         in_txt.close();
 
