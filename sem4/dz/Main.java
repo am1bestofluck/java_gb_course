@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 /**
  * main
@@ -25,10 +25,17 @@ public class Main {
                 System.out.println("");
             }
         }
-        // BinSearchTree bst = new BinSearchTree(extracted);
-        // bst.node.traverseInOrder(bst.node);
-        System.out.println(node_);//джава почему ты убираешь мусор так яростно
-        cWriter b = new cWriter(extracted, constants.fileOut);
+        node_.grabValues(node_);
+        Integer[] tmp = new Integer[node_.sortedRecursionCheckout.size()];
+        for (int i = 0; i < node_.sortedRecursionCheckout.size(); i++) {
+            tmp[i] = node_.sortedRecursionCheckout.get(i);
+        }
+        /* ТО что джава убирает переменные которые объявлены внутри цикла
+         * это уже трудно объяснимо.
+         * Но она убирает их даже если они объявлены снаружи, если на них
+         *  в дальнейшем нет ссылок ._. 
+        */
+        cWriter b = new cWriter(tmp, constants.fileOut);
         b.write_in();
     }
 }

@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 /**
  * https://www.baeldung.com/java-binary-tree#:~:text=A%20binary%20tree%20is%20a,in%20the%20right%20sub%2Dtree.
  */
 public class BinSearchNode {
+    public ArrayList<Integer> sortedRecursionCheckout;
     BinSearchNode root;
     int value;
     BinSearchNode left;
@@ -40,18 +43,33 @@ public class BinSearchNode {
             traverseInOrder(node.right);
         }
     }
-    public static void main(String[] args) {
-    //     BinSearchNode bt = new BinSearchNode(0);
 
-    // bt.add(6);
-    // bt.add(4);
-    // bt.add(8);
-    // bt.add(3);
-    // bt.add(5);
-    // bt.add(7);
-    // bt.add(9);
-    // System.out.println(bt);
-    // return bt;
+    public void grabValues( 
+    BinSearchNode node) {
+        if (node != null) {
+            grabValues( node.left);
+            this.sortedRecursionCheckout.add(node.value);
+            grabValues(node.right);
+        }
+
+    }
+    public Integer[] returnSorted( BinSearchNode node){
+        ArrayList<Integer> tmp = new ArrayList<Integer>();
+        if (node != null) {
+            traverseInOrder(node.left);
+            tmp.add(node.value);
+            traverseInOrder(node.right);
+            tmp.add(node.value);
+        }
+        
+        Integer[] out = new Integer[tmp.size()];
+        for (int i = 0; i < tmp.size(); i++) {
+            out[i] = tmp.get(i);
+        }
+        
+        return out;
+    }
+    public static void main(String[] args) {
         
     }
 

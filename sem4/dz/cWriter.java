@@ -2,6 +2,8 @@
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 /**
  * cWriter
@@ -18,11 +20,21 @@ public class cWriter {
     }
 
     public static Integer[] randomize_incoming( Integer size){
+        ArrayList<Integer> tmp = new ArrayList<Integer>();
         Random Unique = new Random();
         Integer[] out = new Integer[size];
         for (int i = 0; i < out.length; i++) {
-            out[i] = (Unique.nextBoolean())?  i+constants.arraysize+1 : i;
+            tmp.add((Unique.nextBoolean())?  i+constants.arraysize+1 : i);
+            tmp.add(i);
         }
+
+        Collections.shuffle(tmp);
+        System.out.println("\n\n\nUNsorted\n\n\n");
+        
+        for (int i = 0; i < out.length; i++) {
+            out[i] = tmp.get(i);
+        }
+
         return out;
 
     }
