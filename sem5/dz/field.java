@@ -41,19 +41,20 @@ public class field {
     }
     public void setWalls(){
         String temp;
-        Pattern validPattern = Pattern.compile("(\\s?\\d\\s?),(\\s?\\d\\s?)");
+        //"\\s*\\d+\\s*,\\s*\\d+\\s*"
+        //"(\\s*\\d+\\s*),(\\s*\\d+\\s*)"
+        //"(\\s*\\d+\\s*),(\\s*\\d+j\\s*)"
+        Pattern validPattern = Pattern.compile("(\\s*\\d+\\s*),(\\s*\\d+\\s*)");
+        Pattern validPatter1 = Pattern.compile("\\d+");
         String inputPrompt =String.join(" ", new String[]{
             "Ставим стены, в формате \"x,y\".",
             "Неадекватный ввод для завершения."
         }); 
         System.out.println(inputPrompt);
         Scanner sin = new Scanner(System.in);
-        temp = sin.nextLine();
+        temp = String.valueOf(sin.nextLine());
         Matcher tryParse = validPattern.matcher(temp);
-        if (!tryParse.find()){
-            System.out.println("Понял-принял, никаких стен. Выходим");
-            return;
-        }
+        
         while (tryParse.find()){
             // если координаты внутри координат: парсим, ставим -2
             Integer w= Integer.parseInt(tryParse.group(1));
