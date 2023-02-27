@@ -12,6 +12,7 @@ public class field {
     Integer[][] body;
     public static void main(String[] args) {
         field yep = new field(10,10);
+        Integer[][] a = yep.body;
         yep.setWalls();
         System.out.println("");
         
@@ -41,31 +42,35 @@ public class field {
     }
     public void setWalls(){
         String temp;
-        //"\\s*\\d+\\s*,\\s*\\d+\\s*"
-        //"(\\s*\\d+\\s*),(\\s*\\d+\\s*)"
-        //"(\\s*\\d+\\s*),(\\s*\\d+j\\s*)"
         Pattern validPattern = Pattern.compile("(\\s*\\d+\\s*),(\\s*\\d+\\s*)");
-        Pattern validPatter1 = Pattern.compile("\\d+");
         String inputPrompt =String.join(" ", new String[]{
             "Ставим стены, в формате \"x,y\".",
             "Неадекватный ввод для завершения."
         }); 
         System.out.println(inputPrompt);
         Scanner sin = new Scanner(System.in);
-        temp = String.valueOf(sin.nextLine());
-        Matcher tryParse = validPattern.matcher(temp);
         
-        while (tryParse.find()){
-            // если координаты внутри координат: парсим, ставим -2
-            Integer w= Integer.parseInt(tryParse.group(1));
-            Integer h = Integer.valueOf(tryParse.group(2));
-            if(  (w >= this.width) || (h >= this.height)){
-                System.out.println("Не попадаем в размерность. Выходим.");
-                return;
+        boolean more = true;
+        while (more){
+            temp = String.valueOf(sin.nextLine());
+            Matcher tryParse = validPattern.matcher(temp);
+            if (tryParse.find()){
+                // если координаты внутри координат: парсим, ставим -2
+                Integer w= Integer.parseInt(tryParse.group(1));
+                Integer h = Integer.valueOf(tryParse.group(2));
+                if(  (w >= this.width) || (h >= this.height)){
+                    System.out.println("Не попадаем в размерность. Выходим.");
+                    more = false;
+                    break;
+
             }
-            this.body[w][h] = -2;
-            System.out.println(inputPrompt);
-            temp = sin.nextLine();
+            else {
+                this.body[w][h] = -2;}
+        }
+        else {
+            System.out.println("Мгм.");
+            break;
+        }
 
         }
     return;
