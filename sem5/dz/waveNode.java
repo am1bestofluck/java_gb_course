@@ -15,9 +15,7 @@ public class waveNode {
     public static void main(String[] args) {
     }
 
-    public waveNode(Integer value_i, Integer ox_i, Integer oy_i){
+    public waveNode(Integer value_i){
         this.value= value_i;
-        this.ox = ox_i;
-        this.oy = oy_i;
     }
 }
