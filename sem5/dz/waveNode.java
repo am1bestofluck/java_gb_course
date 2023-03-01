@@ -1,3 +1,5 @@
+import javax.sound.midi.Soundbank;
+
 /**
  * waveNode
  */
@@ -43,4 +45,21 @@ public class waveNode {
         }
         return out; 
     }
+    // public void tryAddNeighboor(String side, Integer value){
+    //     if (value == constants.border) {
+    //         return;
+    //     }
+    //     if (side.equals(constants.top)){
+    //         this.bottomNeighboor = 
+
+    //     else if(side.equals(constants.bottom)){
+    //         System.out.println();}
+    //     else if (side.equals(constants.left)){
+    //         System.out.println();
+    //     }
+    //     else if (side.equals(constants.right)){
+            
+    //     }
+    //     }
+    
 }

@@ -17,13 +17,13 @@ public class field {
     Integer [] destination = new Integer[]{0,0};
     static final Pattern validPattern = Pattern.compile("(\\s*-*\\d+\\s*),(\\s*-*\\d+\\s*)");
     
-    static final Integer cellWidth = 5;
-    private final Integer border = -3;
-    private final Integer emptyCell = -2;
-    private final Integer startValue = 0;
-    private final Integer destinationValue = -1;
+    // static final Integer cellWidth = 5;
+    // private final Integer border = -3;
+    // private final Integer emptyCell = -2;
+    // private final Integer startValue = 0;
+    // private final Integer destinationValue = -1;
 
-    private Hashtable<String,Integer> map_ = new Hashtable<>(){{}};
+    private Hashtable<String,Integer> map_ = new Hashtable<String, Integer>(){{}};
     
     public static void main(String[] args) {
         
@@ -49,13 +49,13 @@ public class field {
         for (int i = 0; i < this.height; i++) {
             if ((i == 0) || (i == this.height-1)){
                 for (int j = 0; j < this.width; j++) {
-                    out[j][i] = border;
+                    out[j][i] = constants.border;
                 }}
             else{
-                out[0][i] = border;
-                out[this.width-1][i] = border;
+                out[0][i] = constants.border;
+                out[this.width-1][i] = constants.border;
                 for (int q = 1; q < this.width-1; q++) {
-                    out[q][i] = emptyCell;
+                    out[q][i] = constants.emptyCell;
                 }
             }
             }
@@ -91,7 +91,7 @@ public class field {
 
             }
             else {
-                this.body[w][h] = border;
+                this.body[w][h] = constants.border;
             System.out.println("Ещё?");}
         }
         else {
@@ -110,7 +110,7 @@ public class field {
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[i].length; j++) {
                 normalizer = new StringBuilder();
-                for (int k = 0; k < cellWidth-String.valueOf(a[i][j]).length(); k++) {
+                for (int k = 0; k < constants.cellWidth-String.valueOf(a[i][j]).length(); k++) {
                     normalizer.append(" ");
                 }
                 System.out.print(String.valueOf(a[i][j])+normalizer.toString());
@@ -147,13 +147,13 @@ public class field {
         || ((h > this.height-1)) || (h < 1))
         {
             System.out.println("Не попадаем в размерность.");}
-        else if (this.body[w][h] == border){
+        else if (this.body[w][h] == constants.border){
             System.out.println("Там стена.");
         }
         else {
             this.entryPoint[0] = w;
             this.entryPoint[1] = h;
-            this.body[w][h] = startValue;
+            this.body[w][h] = constants.startValue;
             correct = true;
         }
     }
@@ -174,18 +174,18 @@ public class field {
         || ((h > this.height-1)) || (h < 1))
         {
             System.out.println("Не попадаем в размерность.");}
-        else if (this.body[w][h] == border){
+        else if (this.body[w][h] == constants.border){
             System.out.println("Там стена.");
         }
         else if ((w == this.entryPoint[0]) && (h == this.entryPoint[1]) ){
             System.out.println("Это точка входа. Вариант пропускаю, но ЗаЧеМ.");
-            this.body[w][h] = destinationValue;
+            this.body[w][h] = constants.destinationValue;
             correct = true;
         }
         else {
             this.destination[0] = w;
             this.destination[1] = h;
-            this.body[w][h] = destinationValue;
+            this.body[w][h] = constants.destinationValue;
             correct = true;
         }}
         
@@ -208,57 +208,98 @@ public class field {
             return;} // потом об этом подумаю
         //знакомим соседей по углам
         //  сз
-        grid[1][1].bottomNeighboor = grid[2][1];
-        grid[1][1].rightNeighboor = grid[1][2];
+        // grid[1][1].bottomNeighboor = grid[2][1];
+        grid[1][1].bottomNeighboor = (grid[2][1].value == constants.border)? null: grid[2][1];
+        grid[1][1].rightNeighboor = (grid[1][2].value == constants.border)? null:grid[1][2];
 
         //  юз
-        grid[this.height-2][1].upperNeighboor = grid[this.height-3][1];
-        grid[this.height-2][1].rightNeighboor = grid[this.height-2][2];
+        grid[this.height-2][1].upperNeighboor
+         = (grid[this.height-3][1].value == constants.border)? null:grid[this.height-3][1] ;
+        grid[this.height-2][1].rightNeighboor
+         = (grid[this.height-2][2].value == constants.border)? null:grid[this.height-2][2] ;
 
         //  св
-        grid[1][this.width-2].leftNeighboor = grid[1][this.width-3];
-        grid[1][this.width-2].bottomNeighboor = grid[2][this.width-2];
+        grid[1][this.width-2].leftNeighboor 
+        = (grid[1][this.width-3].value == constants.border)? null:grid[1][this.width-3];
+        grid[1][this.width-2].bottomNeighboor
+         = (grid[2][this.width-2].value == constants.border)? null:grid[2][this.width-2];
 
         // юв
         grid[this.width-2][this.height-2].upperNeighboor
-        = grid[this.width-3][this.height-2];
+        = (grid[this.width-3][this.height-2].value == constants.border)? null
+         : grid[this.width-3][this.height-2];
         grid[this.width-2][this.height-2].leftNeighboor
-        = grid[this.width-2][this.height-3];
+        = (grid[this.width-2][this.height-3].value == constants.border)? null
+         : grid[this.width-2][this.height-3];
         //знакомим соседей по краям
 
         //  верхний край
         for (int i = 2; i < this.width-2; i++) {
-            grid[1][i].bottomNeighboor = grid[2][i];
-            grid[1][i].leftNeighboor =grid[1][i-1];
-            grid[1][i].rightNeighboor =grid[1][i+1];
+            grid[1][i].bottomNeighboor = 
+            (grid[2][i].value == constants.border)? null
+            : grid[2][i];
+            grid[1][i].leftNeighboor =
+            (grid[1][i-1].value == constants.border)? null
+            : grid[1][i-1];
+            grid[1][i].rightNeighboor =
+            (grid[1][i+1].value == constants.border)? null
+            : grid[1][i+1];
         }
         //  нижний край
         for (int i = 2; i < this.height-2; i++) {
-            grid[this.height-2][i].upperNeighboor = grid[this.height-3][i];
-            grid[this.height-2][i].leftNeighboor =grid[this.height-2][i-1];
-            grid[this.height-2][i].rightNeighboor =grid[this.height-2][i+1];
+            grid[this.height-2][i].upperNeighboor
+             = (grid[this.height-3][i].value == constants.border)? null
+            : grid[this.height-3][i];
+            grid[this.height-2][i].leftNeighboor 
+            = (grid[this.height-2][i-1].value == constants.border)? null
+            : grid[this.height-2][i-1];
+            grid[this.height-2][i].rightNeighboor
+             = (grid[this.height-2][i+1].value == constants.border)? null
+            : grid[this.height-2][i+1];
         }
         //  правый край
         for (int i = 2; i < this.height-2; i++) {
-            grid[i][this.width -2].upperNeighboor = grid[i][this.width -1];
-            grid[i][this.width -2].leftNeighboor = grid[i][this.width -3];
-            grid[i][this.width -2].bottomNeighboor = grid[i][this.width -1];
+            grid[i][this.width -2].upperNeighboor
+             = (grid[i][this.width -1].value == constants.border)? null
+             :grid[i][this.width -1];
+            grid[i][this.width -2].leftNeighboor
+             = (grid[i][this.width -3].value == constants.border)? null
+             :grid[i][this.width -3];
+            grid[i][this.width -2].bottomNeighboor
+             = (grid[i][this.width -1].value == constants.border)? null
+             : grid[i][this.width -1];
         }
         //  левый край
         for (int i = 2; i < grid.length-2; i++) {
-            grid[i][1].upperNeighboor = grid[i-1][1];
-            grid[i][1].rightNeighboor = grid[i][2];
-            grid[i][1].bottomNeighboor = grid[i+1][1];}
-//08/05/ dz stas
+            grid[i][1].upperNeighboor
+             = (grid[i-1][1].value == constants.border)? null
+             : grid[i-1][1];
+            grid[i][1].rightNeighboor
+             = (grid[i][2].value == constants.border)? null
+             : grid[i][2];
+            grid[i][1].bottomNeighboor
+             = (grid[i+1][1].value == constants.border)? null
+             : grid[i+1][1];}
+//08/05/ dr stas
         // знакомим мид
         for (int i = 3; i < this.width-3; i++) {
             for (int j = 3; j < this.height-3; j++) {
-                grid[i][j].upperNeighboor=grid[i-1][j];
-                grid[i][j].bottomNeighboor=grid[i+1][j];
-                grid[i][j].leftNeighboor=grid[i][j-1];
-                grid[i][j].rightNeighboor=grid[i][j+1];
+                grid[i][j].upperNeighboor
+                 = (grid[i-1][j].value == constants.border)? null
+                 : grid[i-1][j];
+                grid[i][j].bottomNeighboor
+                 = (grid[i+1][j].value == constants.border)? null
+                 : grid[i+1][j];
+                grid[i][j].leftNeighboor
+                 = (grid[i][j-1].value == constants.border)? null
+                 : grid[i][j-1];
+                grid[i][j].rightNeighboor
+                 = (grid[i][j+1].value == constants.border)? null
+                 : grid[i][j+1];
             }
         }
+        System.out.println("nwc");
+        waveNode[] test = grid[1][1].getNeigboors();
         // System.out.println("вк");
         // waveNode[] test = grid[1][2].getNeigboors();
         // System.out.println("нк");
@@ -274,11 +315,11 @@ public class field {
 
     }
     public void showLegend(){
-        this.map_.put("Стены:",this.border);
-        this.map_.put("Финиш:",this.destinationValue);
-        this.map_.put("Старт", this.startValue);
-        this.map_.put("Вакантное", this.emptyCell);
-        for ( var item : this.map_.entrySet()) {
+        this.map_.put("Стены:",constants.border);
+        this.map_.put("Финиш:",constants.destinationValue);
+        this.map_.put("Старт", constants.startValue);
+        this.map_.put("Вакантное", constants.emptyCell);
+        for ( Map.Entry<String,Integer> item : this.map_.entrySet()) {
             System.out.println(
                 String.format("%s: %d", item.getKey(),
                 item.getValue()));
