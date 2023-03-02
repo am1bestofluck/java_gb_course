@@ -62,37 +62,66 @@ public class waveNode {
     //     }
     //     }
     public void traverseOnTree(waveNode currentNode, Integer counter){
-        if (currentNode != null){
-            if (currentNode.bottomNeighboor != null) {
-                if (currentNode.bottomNeighboor.value == constants.emptyCell){
-                    currentNode.bottomNeighboor.value = counter;
-                    System.out.println(currentNode.bottomNeighboor.value);
-                    traverseOnTree(currentNode.bottomNeighboor, ++counter);
+            System.out.println(counter);
+            if (counter == 4320){
+                System.out.println("qwe");
+            }
 
-                }
+        if (currentNode.bottomNeighboor != null) {
+            if (currentNode.bottomNeighboor.value == constants.destinationValue){
+                currentNode.bottomNeighboor.value = counter;
+            return;}
+            if (currentNode.bottomNeighboor.value == constants.emptyCell){
+                currentNode.bottomNeighboor.value = counter;}
             }
+            
         if (currentNode.upperNeighboor != null) {
-            if (currentNode.upperNeighboor.value == constants.emptyCell){
+            if (currentNode.upperNeighboor.value == constants.destinationValue){
                 currentNode.upperNeighboor.value = counter;
-                System.out.println(currentNode.upperNeighboor.value);
-                traverseOnTree(currentNode.upperNeighboor, ++counter);
-            }
+            return;}
+            if (currentNode.upperNeighboor.value == constants.emptyCell){
+                currentNode.upperNeighboor.value = counter;}
+           
         }
         if (currentNode.leftNeighboor != null) {
-            if (currentNode.leftNeighboor.value == constants.emptyCell){
+            if (currentNode.leftNeighboor.value == constants.destinationValue){
                 currentNode.leftNeighboor.value = counter;
-                System.out.println(currentNode.leftNeighboor.value);
-                traverseOnTree(currentNode.leftNeighboor, ++counter);
-            
-        }}
+            return;}
+            if (currentNode.leftNeighboor.value == constants.emptyCell){
+                currentNode.leftNeighboor.value = counter;}
+            }
         if (currentNode.rightNeighboor != null) {
-            if(currentNode.rightNeighboor.value == constants.emptyCell){
+            if(currentNode.rightNeighboor.value == constants.destinationValue){
                 currentNode.rightNeighboor.value = counter;
-                System.out.println(currentNode.rightNeighboor);
-                traverseOnTree(currentNode.rightNeighboor,++ counter);
+            return;}
+            if(currentNode.rightNeighboor.value == constants.emptyCell){
+                currentNode.rightNeighboor.value = counter;}
+                
+
+        if ((currentNode.bottomNeighboor != null)
+        || (currentNode.upperNeighboor != null)
+        || (currentNode.leftNeighboor != null)
+        || (currentNode.rightNeighboor != null)){
+
+        if (currentNode.bottomNeighboor != null) {
+            traverseOnTree(currentNode.bottomNeighboor, ++counter);
+        }
+        if (currentNode.upperNeighboor != null) {
+            traverseOnTree(currentNode.upperNeighboor, ++counter);
+        }
+        if (currentNode.leftNeighboor != null) {
+            traverseOnTree(currentNode.leftNeighboor, ++counter);
+        }
+        if (currentNode.rightNeighboor != null) {
+            traverseOnTree(currentNode.rightNeighboor,++ counter);}
+        }
+        else if (currentNode.value == 0 && counter != 1);
+        {
+            return;
+        }
+
+        }
+        else return;
             
         }}
         
-    }
-}
-}
