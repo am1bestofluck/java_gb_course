@@ -15,26 +15,24 @@ public class field {
     Integer[][] body;
     Integer [] entryPoint = new Integer[]{0,0};
     Integer [] destination = new Integer[]{0,0};
+    waveNode[][] travelMap;
     static final Pattern validPattern = Pattern.compile("(\\s*-*\\d+\\s*),(\\s*-*\\d+\\s*)");
     
-    // static final Integer cellWidth = 5;
-    // private final Integer border = -3;
-    // private final Integer emptyCell = -2;
-    // private final Integer startValue = 0;
-    // private final Integer destinationValue = -1;
+    
 
     private Hashtable<String,Integer> map_ = new Hashtable<String, Integer>(){{}};
     
     public static void main(String[] args) {
         
-        field yep = new field(6,6);
+        field yep = new field(constants.sizeOfDesk,constants.sizeOfDesk);
         yep.showLegend();
         yep.setWalls();
         yep.ShowDesk("дефолтная доска");
         yep.SetRoutePoints();
         yep.ShowDesk("Доска с финишем:");
-        yep.drawRoute();
+        yep.convertToTree();
         yep.ShowDesk("маршрут");
+        yep.findWay();
         System.out.println("");
     }
 
@@ -120,7 +118,7 @@ public class field {
     }
 
     public void SetRoutePoints(){
-        Integer[] out = new Integer[]{0,0};
+        // Integer[] out = new Integer[]{0,0};
         Scanner sin = new Scanner(System.in);
         String temp ="";
         Matcher ParseIt;
@@ -191,13 +189,13 @@ public class field {
         
     }
 
-    void drawRoute(){
+    void convertToTree(){
         // Integer tesst = 0;
-        waveNode[][] grid = new waveNode[this.width][this.height];
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                grid[i][j] = new waveNode(body[i][j]);
-                // grid[i][j] = new waveNode(tesst);
+        this.travelMap = new waveNode[this.width][this.height];
+        for (int i = 0; i < this.travelMap.length; i++) {
+            for (int j = 0; j < this.travelMap[i].length; j++) {
+                this.travelMap[i][j] = new waveNode(body[i][j]);
+                // this.travelMap[i][j] = new waveNode(tesst);
                 // System.out.print(tesst);
                 // System.out.print(" ");
                 // tesst++;
@@ -208,112 +206,130 @@ public class field {
             return;} // потом об этом подумаю
         //знакомим соседей по углам
         //  сз
-        // grid[1][1].bottomNeighboor = grid[2][1];
-        grid[1][1].bottomNeighboor = (grid[2][1].value == constants.border)? null: grid[2][1];
-        grid[1][1].rightNeighboor = (grid[1][2].value == constants.border)? null:grid[1][2];
+        // this.travelMap[1][1].bottomNeighboor = this.travelMap[2][1];
+        this.travelMap[1][1].bottomNeighboor = (this.travelMap[2][1].value == constants.border)? null: this.travelMap[2][1];
+        this.travelMap[1][1].rightNeighboor = (this.travelMap[1][2].value == constants.border)? null:this.travelMap[1][2];
 
         //  юз
-        grid[this.height-2][1].upperNeighboor
-         = (grid[this.height-3][1].value == constants.border)? null:grid[this.height-3][1] ;
-        grid[this.height-2][1].rightNeighboor
-         = (grid[this.height-2][2].value == constants.border)? null:grid[this.height-2][2] ;
+        this.travelMap[this.height-2][1].upperNeighboor
+         = (this.travelMap[this.height-3][1].value == constants.border)? null:this.travelMap[this.height-3][1] ;
+        this.travelMap[this.height-2][1].rightNeighboor
+         = (this.travelMap[this.height-2][2].value == constants.border)? null:this.travelMap[this.height-2][2] ;
 
         //  св
-        grid[1][this.width-2].leftNeighboor 
-        = (grid[1][this.width-3].value == constants.border)? null:grid[1][this.width-3];
-        grid[1][this.width-2].bottomNeighboor
-         = (grid[2][this.width-2].value == constants.border)? null:grid[2][this.width-2];
+        this.travelMap[1][this.width-2].leftNeighboor 
+        = (this.travelMap[1][this.width-3].value == constants.border)? null:this.travelMap[1][this.width-3];
+        this.travelMap[1][this.width-2].bottomNeighboor
+         = (this.travelMap[2][this.width-2].value == constants.border)? null:this.travelMap[2][this.width-2];
 
         // юв
-        grid[this.width-2][this.height-2].upperNeighboor
-        = (grid[this.width-3][this.height-2].value == constants.border)? null
-         : grid[this.width-3][this.height-2];
-        grid[this.width-2][this.height-2].leftNeighboor
-        = (grid[this.width-2][this.height-3].value == constants.border)? null
-         : grid[this.width-2][this.height-3];
+        this.travelMap[this.width-2][this.height-2].upperNeighboor
+        = (this.travelMap[this.width-3][this.height-2].value == constants.border)? null
+         : this.travelMap[this.width-3][this.height-2];
+        this.travelMap[this.width-2][this.height-2].leftNeighboor
+        = (this.travelMap[this.width-2][this.height-3].value == constants.border)? null
+         : this.travelMap[this.width-2][this.height-3];
         //знакомим соседей по краям
 
         //  верхний край
         for (int i = 2; i < this.width-2; i++) {
-            grid[1][i].bottomNeighboor = 
-            (grid[2][i].value == constants.border)? null
-            : grid[2][i];
-            grid[1][i].leftNeighboor =
-            (grid[1][i-1].value == constants.border)? null
-            : grid[1][i-1];
-            grid[1][i].rightNeighboor =
-            (grid[1][i+1].value == constants.border)? null
-            : grid[1][i+1];
+            this.travelMap[1][i].bottomNeighboor = 
+            (this.travelMap[2][i].value == constants.border)? null
+            : this.travelMap[2][i];
+            this.travelMap[1][i].leftNeighboor =
+            (this.travelMap[1][i-1].value == constants.border)? null
+            : this.travelMap[1][i-1];
+            this.travelMap[1][i].rightNeighboor =
+            (this.travelMap[1][i+1].value == constants.border)? null
+            : this.travelMap[1][i+1];
         }
         //  нижний край
         for (int i = 2; i < this.height-2; i++) {
-            grid[this.height-2][i].upperNeighboor
-             = (grid[this.height-3][i].value == constants.border)? null
-            : grid[this.height-3][i];
-            grid[this.height-2][i].leftNeighboor 
-            = (grid[this.height-2][i-1].value == constants.border)? null
-            : grid[this.height-2][i-1];
-            grid[this.height-2][i].rightNeighboor
-             = (grid[this.height-2][i+1].value == constants.border)? null
-            : grid[this.height-2][i+1];
+            this.travelMap[this.height-2][i].upperNeighboor
+             = (this.travelMap[this.height-3][i].value == constants.border)? null
+            : this.travelMap[this.height-3][i];
+            this.travelMap[this.height-2][i].leftNeighboor 
+            = (this.travelMap[this.height-2][i-1].value == constants.border)? null
+            : this.travelMap[this.height-2][i-1];
+            this.travelMap[this.height-2][i].rightNeighboor
+             = (this.travelMap[this.height-2][i+1].value == constants.border)? null
+            : this.travelMap[this.height-2][i+1];
         }
         //  правый край
         for (int i = 2; i < this.height-2; i++) {
-            grid[i][this.width -2].upperNeighboor
-             = (grid[i][this.width -1].value == constants.border)? null
-             :grid[i][this.width -1];
-            grid[i][this.width -2].leftNeighboor
-             = (grid[i][this.width -3].value == constants.border)? null
-             :grid[i][this.width -3];
-            grid[i][this.width -2].bottomNeighboor
-             = (grid[i][this.width -1].value == constants.border)? null
-             : grid[i][this.width -1];
+            this.travelMap[i][this.width -2].upperNeighboor
+             = (this.travelMap[i][this.width -1].value == constants.border)? null
+             :this.travelMap[i][this.width -1];
+            this.travelMap[i][this.width -2].leftNeighboor
+             = (this.travelMap[i][this.width -3].value == constants.border)? null
+             :this.travelMap[i][this.width -3];
+            this.travelMap[i][this.width -2].bottomNeighboor
+             = (this.travelMap[i][this.width -1].value == constants.border)? null
+             : this.travelMap[i][this.width -1];
         }
         //  левый край
-        for (int i = 2; i < grid.length-2; i++) {
-            grid[i][1].upperNeighboor
-             = (grid[i-1][1].value == constants.border)? null
-             : grid[i-1][1];
-            grid[i][1].rightNeighboor
-             = (grid[i][2].value == constants.border)? null
-             : grid[i][2];
-            grid[i][1].bottomNeighboor
-             = (grid[i+1][1].value == constants.border)? null
-             : grid[i+1][1];}
+        for (int i = 2; i < this.travelMap.length-2; i++) {
+            this.travelMap[i][1].upperNeighboor
+             = (this.travelMap[i-1][1].value == constants.border)? null
+             : this.travelMap[i-1][1];
+            this.travelMap[i][1].rightNeighboor
+             = (this.travelMap[i][2].value == constants.border)? null
+             : this.travelMap[i][2];
+            this.travelMap[i][1].bottomNeighboor
+             = (this.travelMap[i+1][1].value == constants.border)? null
+             : this.travelMap[i+1][1];}
 //08/05/ dr stas
         // знакомим мид
         for (int i = 3; i < this.width-3; i++) {
             for (int j = 3; j < this.height-3; j++) {
-                grid[i][j].upperNeighboor
-                 = (grid[i-1][j].value == constants.border)? null
-                 : grid[i-1][j];
-                grid[i][j].bottomNeighboor
-                 = (grid[i+1][j].value == constants.border)? null
-                 : grid[i+1][j];
-                grid[i][j].leftNeighboor
-                 = (grid[i][j-1].value == constants.border)? null
-                 : grid[i][j-1];
-                grid[i][j].rightNeighboor
-                 = (grid[i][j+1].value == constants.border)? null
-                 : grid[i][j+1];
+                this.travelMap[i][j].upperNeighboor
+                 = (this.travelMap[i-1][j].value == constants.border)? null
+                 : this.travelMap[i-1][j];
+                this.travelMap[i][j].bottomNeighboor
+                 = (this.travelMap[i+1][j].value == constants.border)? null
+                 : this.travelMap[i+1][j];
+                this.travelMap[i][j].leftNeighboor
+                 = (this.travelMap[i][j-1].value == constants.border)? null
+                 : this.travelMap[i][j-1];
+                this.travelMap[i][j].rightNeighboor
+                 = (this.travelMap[i][j+1].value == constants.border)? null
+                 : this.travelMap[i][j+1];
             }
         }
         System.out.println("nwc");
-        waveNode[] test = grid[1][1].getNeigboors();
+        waveNode[] test = this.travelMap[1][1].getNeigboors();
         // System.out.println("вк");
-        // waveNode[] test = grid[1][2].getNeigboors();
+        // waveNode[] test = this.travelMap[1][2].getNeigboors();
         // System.out.println("нк");
-        // test = grid[grid.length-2][2].getNeigboors();
+        // test = this.travelMap[this.travelMap.length-2][2].getNeigboors();
         // System.out.println("пк");
-        // test = grid[1][grid[0].length-3].getNeigboors();
+        // test = this.travelMap[1][this.travelMap[0].length-3].getNeigboors();
         // System.out.println("лк");
-        // test = grid[2][1].getNeigboors();
+        // test = this.travelMap[2][1].getNeigboors();
         // System.out.println("мид");
-        // test = grid[5][5].getNeigboors();
+        // test = this.travelMap[5][5].getNeigboors();
         
         System.out.println();
 
     }
+   
+    void findWay(){
+        waveNode start = this.travelMap[this.entryPoint[0]][this.entryPoint[1]];
+        waveNode[] arr = start.getNeigboors();
+        Integer counter = 0;
+        start.traverseOnTree(start,counter);
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                System.out.print(this.travelMap[i][j].value);
+                System.out.print(" ");
+
+            }
+            System.out.println();
+        }
+        System.out.println();
+        
+    }
+    
     public void showLegend(){
         this.map_.put("Стены:",constants.border);
         this.map_.put("Финиш:",constants.destinationValue);

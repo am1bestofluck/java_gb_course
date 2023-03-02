@@ -13,6 +13,8 @@ public class constants {
     public static  final Integer emptyCell = -2;
     public static final Integer startValue = 0;
     public static final Integer destinationValue = -1;
+
+    public static final Integer sizeOfDesk = 12;
     public static void main(String[] args) {
         
     }

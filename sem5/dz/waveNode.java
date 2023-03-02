@@ -61,5 +61,38 @@ public class waveNode {
             
     //     }
     //     }
-    
+    public void traverseOnTree(waveNode currentNode, Integer counter){
+        if (currentNode != null){
+            if (currentNode.bottomNeighboor != null) {
+                if (currentNode.bottomNeighboor.value == constants.emptyCell){
+                    currentNode.bottomNeighboor.value = counter;
+                    System.out.println(currentNode.bottomNeighboor.value);
+                    traverseOnTree(currentNode.bottomNeighboor, ++counter);
+
+                }
+            }
+        if (currentNode.upperNeighboor != null) {
+            if (currentNode.upperNeighboor.value == constants.emptyCell){
+                currentNode.upperNeighboor.value = counter;
+                System.out.println(currentNode.upperNeighboor.value);
+                traverseOnTree(currentNode.upperNeighboor, ++counter);
+            }
+        }
+        if (currentNode.leftNeighboor != null) {
+            if (currentNode.leftNeighboor.value == constants.emptyCell){
+                currentNode.leftNeighboor.value = counter;
+                System.out.println(currentNode.leftNeighboor.value);
+                traverseOnTree(currentNode.leftNeighboor, ++counter);
+            
+        }}
+        if (currentNode.rightNeighboor != null) {
+            if(currentNode.rightNeighboor.value == constants.emptyCell){
+                currentNode.rightNeighboor.value = counter;
+                System.out.println(currentNode.rightNeighboor);
+                traverseOnTree(currentNode.rightNeighboor,++ counter);
+            
+        }}
+        
+    }
+}
 }
