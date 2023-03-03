@@ -1,5 +1,4 @@
 
-
 /**
  * waveNode
  */
@@ -9,6 +8,7 @@ public class waveNode {
     waveNode rightNeighboor;
     waveNode upperNeighboor;
     waveNode bottomNeighboor;
+    Boolean visited = false;
 
     Integer value;
     Integer ox;
@@ -61,67 +61,158 @@ public class waveNode {
             
     //     }
     //     }
-    public void traverseOnTree(waveNode currentNode, Integer counter){
-            System.out.println(counter);
-            if (counter == 4320){
-                System.out.println("qwe");
-            }
 
-        if (currentNode.bottomNeighboor != null) {
-            if (currentNode.bottomNeighboor.value == constants.destinationValue){
-                currentNode.bottomNeighboor.value = counter;
-            return;}
-            if (currentNode.bottomNeighboor.value == constants.emptyCell){
-                currentNode.bottomNeighboor.value = counter;}
-            }
+    // public void traverseOnTree(waveNode currentNode,waveNode destination, Integer counter, waveNode[][] desk){
+    //         System.out.println(counter);
+    //         if (counter == 4320){
+    //             System.out.println("qwe");
+    //         }
+
+    //     if (currentNode.bottomNeighboor != null) {
+    //         if (currentNode.bottomNeighboor.value == constants.destinationValue){
+    //             currentNode.bottomNeighboor.value = counter+1;
+    //         return;}
+    //         if (currentNode.bottomNeighboor.value == constants.emptyCell){
+    //             currentNode.bottomNeighboor.value = counter+1;}
+    //         }
             
-        if (currentNode.upperNeighboor != null) {
-            if (currentNode.upperNeighboor.value == constants.destinationValue){
-                currentNode.upperNeighboor.value = counter;
-            return;}
-            if (currentNode.upperNeighboor.value == constants.emptyCell){
-                currentNode.upperNeighboor.value = counter;}
+    //     if (currentNode.upperNeighboor != null) {
+    //         if (currentNode.upperNeighboor.value == constants.destinationValue){
+    //             currentNode.upperNeighboor.value = counter+1;
+    //         return;}
+    //         if (currentNode.upperNeighboor.value == constants.emptyCell){
+    //             currentNode.upperNeighboor.value = counter+1;}
            
-        }
-        if (currentNode.leftNeighboor != null) {
-            if (currentNode.leftNeighboor.value == constants.destinationValue){
-                currentNode.leftNeighboor.value = counter;
-            return;}
-            if (currentNode.leftNeighboor.value == constants.emptyCell){
-                currentNode.leftNeighboor.value = counter;}
-            }
-        if (currentNode.rightNeighboor != null) {
-            if(currentNode.rightNeighboor.value == constants.destinationValue){
-                currentNode.rightNeighboor.value = counter;
-            return;}
-            if(currentNode.rightNeighboor.value == constants.emptyCell){
-                currentNode.rightNeighboor.value = counter;}
+    //     }
+    //     if (currentNode.leftNeighboor != null) {
+    //         if (currentNode.leftNeighboor.value == constants.destinationValue){
+    //             currentNode.leftNeighboor.value = counter+1;
+    //         return;}
+    //         if (currentNode.leftNeighboor.value == constants.emptyCell){
+    //             currentNode.leftNeighboor.value = counter+1;}
+    //         }
+    //     if (currentNode.rightNeighboor != null) {
+    //         if(currentNode.rightNeighboor.value == constants.destinationValue){
+    //             currentNode.rightNeighboor.value = counter+1;
+    //         return;}
+    //         if(currentNode.rightNeighboor.value == constants.emptyCell){
+    //             currentNode.rightNeighboor.value = counter+1;}
                 
 
-        if ((currentNode.bottomNeighboor != null)
-        || (currentNode.upperNeighboor != null)
-        || (currentNode.leftNeighboor != null)
-        || (currentNode.rightNeighboor != null)){
+    //     if ((currentNode.bottomNeighboor != null)
+    //     || (currentNode.upperNeighboor != null)
+    //     || (currentNode.leftNeighboor != null)
+    //     || (currentNode.rightNeighboor != null)){
 
-        if (currentNode.bottomNeighboor != null) {
-            traverseOnTree(currentNode.bottomNeighboor, ++counter);
-        }
-        if (currentNode.upperNeighboor != null) {
-            traverseOnTree(currentNode.upperNeighboor, ++counter);
-        }
-        if (currentNode.leftNeighboor != null) {
-            traverseOnTree(currentNode.leftNeighboor, ++counter);
-        }
-        if (currentNode.rightNeighboor != null) {
-            traverseOnTree(currentNode.rightNeighboor,++ counter);}
-        }
-        else if (currentNode.value == 0 && counter != 1);
-        {
-            return;
-        }
+    //     if (currentNode.bottomNeighboor != null) {
+    //         traverseOnTree(currentNode.bottomNeighboor,destination, ++counter,desk);
+    //     }
+    //     if (currentNode.upperNeighboor != null) {
+    //         traverseOnTree(currentNode.upperNeighboor, destination, ++counter,desk);
+    //     }
+    //     if (currentNode.leftNeighboor != null) {
+    //         traverseOnTree(currentNode.leftNeighboor, destination, ++counter,desk);
+    //     }
+    //     if (currentNode.rightNeighboor != null) {
+    //         traverseOnTree(currentNode.rightNeighboor,destination, ++counter,desk);
+    //     }
+    //     }
+    //     else if (currentNode.value == 0 && counter != 1);
+    //     {
+    //         return;
+    //     }
 
-        }
-        else return;
+    //     }
+    //     else return;
             
-        }}
-        
+    //     }
+
+    public void traverseOnTree( 
+        waveNode currentNode,waveNode destination,
+         Integer counter, waveNode[][] desk) throws InterruptedException{
+            // сначала условие выхода.
+
+            // currentNode.value = counter;
+            System.out.println();
+            currentNode.visited = true;
+            for (int i = 0; i < desk.length; i++) {
+                for (int j = 0; j < desk.length; j++) {
+                    System.out.print(String.format("%5d",desk[i][j].value));
+
+                }
+                System.out.println();
+            }
+            if (currentNode.bottomNeighboor != null) {
+                if (!currentNode.bottomNeighboor.visited)
+                {currentNode.bottomNeighboor.value = counter+1;}
+                if (currentNode.bottomNeighboor.equals(destination)){
+                    System.out.println("bottom");
+                    throw new InterruptedException ("Мы тут закончили!");
+                }
+            }
+            if (currentNode.upperNeighboor != null) {
+                if(!currentNode.upperNeighboor.visited)
+                {currentNode.upperNeighboor.value = counter+1;}
+                if (currentNode.upperNeighboor.equals(destination)){
+                    System.out.println("upper");
+                    throw new InterruptedException ("Мы тут закончили!");}
+            }
+            if (currentNode.leftNeighboor != null) {
+                if(!currentNode.leftNeighboor.visited)
+                {currentNode.leftNeighboor.value = counter +1;}
+                if (currentNode.leftNeighboor.equals(destination)){
+                    System.out.println("left");
+                    throw new InterruptedException ("Мы тут закончили!");}
+            }
+            if (currentNode.rightNeighboor != null) {
+                if(!currentNode.rightNeighboor.visited)
+                {currentNode.rightNeighboor.value = counter+1;}
+                if (currentNode.rightNeighboor.equals(destination)){
+                    System.out.println("right");
+                    throw new InterruptedException ("Мы тут закончили!");}
+            }
+            counter ++;
+            
+            if (currentNode.bottomNeighboor != null) {
+                if (
+                    !currentNode.bottomNeighboor.visited
+                    // currentNode.bottomNeighboor.value == constants.emptyCell
+                // || currentNode.bottomNeighboor.value != counter
+                )
+                { 
+                System.out.println("recursion bottom");
+                traverseOnTree(currentNode.bottomNeighboor, destination, counter, desk);
+                }
+            }
+            if (currentNode.upperNeighboor != null) {
+                if (
+                    !currentNode.upperNeighboor.visited
+                    // currentNode.upperNeighboor.value == constants.emptyCell
+                // || currentNode.upperNeighboor.value != counter
+                ){
+                System.out.println("recusion top");
+                traverseOnTree(currentNode.upperNeighboor, destination, counter, desk);}
+            }
+            if (currentNode.leftNeighboor != null) {
+                if (
+                    !currentNode.leftNeighboor.visited
+                    // currentNode.leftNeighboor.value == constants.emptyCell
+                // || currentNode.leftNeighboor.value != counter
+
+                )
+                {System.out.println("recursion left");
+                traverseOnTree(currentNode.leftNeighboor, destination, counter, desk);}
+            }
+            if (currentNode.rightNeighboor != null) {
+                if(
+                    !currentNode.rightNeighboor.visited
+                    // currentNode.rightNeighboor.value == constants.emptyCell
+                // || currentNode.rightNeighboor.value != counter
+                ){
+                    System.out.println("recursion right");
+                traverseOnTree(currentNode.rightNeighboor, destination, counter, desk);}
+            }
+
+
+         }
+    }

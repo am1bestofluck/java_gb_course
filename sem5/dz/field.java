@@ -5,6 +5,7 @@
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.prefs.BackingStoreException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ public class field {
     public static final String font_green = "\u001B[32m";
     public static final String font_blue="\u001B[34m";
     public static final String font_black = "\u001B[30m";
+    public static final String font_white = "\u001B[37m";
     Integer width;
     Integer height;
     Integer[][] body;
@@ -33,10 +35,10 @@ public class field {
         // yep.ShowDesk("дефолтная доска");
         yep.SetRoutePoints();
         yep.ShowDesk("Доска с финишем:");
-        // yep.convertToTree();
-        // yep.ShowDesk("маршрут");
-        // yep.findWay();
-        // System.out.println("");
+        yep.convertToTree();
+        yep.ShowDesk("маршрут");
+        yep.findWay();
+        System.out.println("");
     }
 
     public field(int wid, int hei){
@@ -131,6 +133,8 @@ public class field {
             }
             System.out.println();
     }
+    prefix = font_black;
+    System.out.print(prefix+"");
     }
 
     public void SetRoutePoints(){
@@ -331,9 +335,20 @@ public class field {
    
     void findWay(){
         waveNode start = this.travelMap[this.entryPoint[0]][this.entryPoint[1]];
-        waveNode[] arr = start.getNeigboors();
+        waveNode finish = this.travelMap[this.destination[0]][this.destination[1]];
         Integer counter = 0;
-        start.traverseOnTree(start,counter);
+        try{
+        start.traverseOnTree(start,finish,counter,this.travelMap);}
+        catch (InterruptedException e){
+            System.out.println("break recursion?");
+        }
+        catch (StackOverflowError q)
+        {
+            System.out.println(" эхх :(");
+        }
+        catch (Exception r){
+            System.out.println(r.toString());
+        }
         System.out.println("out!");
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
@@ -348,8 +363,8 @@ public class field {
     }
     
     public void showLegend(){
-        this.map_.put("Стены:",constants.border);
-        this.map_.put("Финиш:",constants.destinationValue);
+        this.map_.put("Стены",constants.border);
+        this.map_.put("Финиш",constants.destinationValue);
         this.map_.put("Старт", constants.startValue);
         this.map_.put("Вакантное", constants.emptyCell);
         for ( Map.Entry<String,Integer> item : this.map_.entrySet()) {
