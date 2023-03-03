@@ -9,7 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class field {
-    
+    public static final String font_red="\u001B[31m";
+    public static final String font_green = "\u001B[32m";
+    public static final String font_blue="\u001B[34m";
+    public static final String font_black = "\u001B[30m";
     Integer width;
     Integer height;
     Integer[][] body;
@@ -27,13 +30,13 @@ public class field {
         field yep = new field(constants.sizeOfDesk,constants.sizeOfDesk);
         yep.showLegend();
         yep.setWalls();
-        yep.ShowDesk("дефолтная доска");
+        // yep.ShowDesk("дефолтная доска");
         yep.SetRoutePoints();
         yep.ShowDesk("Доска с финишем:");
-        yep.convertToTree();
-        yep.ShowDesk("маршрут");
-        yep.findWay();
-        System.out.println("");
+        // yep.convertToTree();
+        // yep.ShowDesk("маршрут");
+        // yep.findWay();
+        // System.out.println("");
     }
 
     public field(int wid, int hei){
@@ -105,13 +108,26 @@ public class field {
         System.out.println(comment);
         StringBuilder normalizer;
         Integer[][] a = this.body;
+        String prefix = new String();
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[i].length; j++) {
+                if (a[i][j]==constants.border){
+                    prefix = font_red;
+                }
+                else if (a[i][j] == constants.destinationValue){
+                    prefix = font_green;
+                }
+                else if (a[i][j] == constants.startValue){
+                    prefix = font_blue;
+                }
+                else if (a[i][j] == constants.emptyCell){
+                    prefix = font_black;
+                }
                 normalizer = new StringBuilder();
                 for (int k = 0; k < constants.cellWidth-String.valueOf(a[i][j]).length(); k++) {
                     normalizer.append(" ");
                 }
-                System.out.print(String.valueOf(a[i][j])+normalizer.toString());
+                System.out.print(prefix + String.valueOf(a[i][j])+normalizer.toString());
             }
             System.out.println();
     }
