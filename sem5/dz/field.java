@@ -334,6 +334,7 @@ public class field {
         waveNode[] arr = start.getNeigboors();
         Integer counter = 0;
         start.traverseOnTree(start,counter);
+        System.out.println("out!");
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 System.out.print(this.travelMap[i][j].value);
