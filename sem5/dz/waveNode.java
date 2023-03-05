@@ -9,6 +9,7 @@ public class waveNode {
     waveNode upperNeighboor;
     waveNode bottomNeighboor;
     Boolean visited = false;
+    Boolean edited = false;
 
     Integer value;
     Integer ox;
@@ -133,40 +134,48 @@ public class waveNode {
             // сначала условие выхода.
 
             // currentNode.value = counter;
-            System.out.println();
+            // System.out.println();
             currentNode.visited = true;
-            for (int i = 0; i < desk.length; i++) {
-                for (int j = 0; j < desk.length; j++) {
-                    System.out.print(String.format("%5d",desk[i][j].value));
+            // for (int i = 0; i < desk.length; i++) {
+            //     for (int j = 0; j < desk.length; j++) {
+            //         System.out.print(String.format("%5d",desk[i][j].value));
 
-                }
-                System.out.println();
-            }
+            //     }
+            //     System.out.println();
+            // }
             if (currentNode.bottomNeighboor != null) {
-                if (!currentNode.bottomNeighboor.visited)
-                {currentNode.bottomNeighboor.value = counter+1;}
+                if (!currentNode.bottomNeighboor.visited){
+                    if (!currentNode.bottomNeighboor.edited)
+                        {currentNode.bottomNeighboor.value = counter+1;
+                        currentNode.bottomNeighboor.edited = true;}}
                 if (currentNode.bottomNeighboor.equals(destination)){
                     System.out.println("bottom");
                     throw new InterruptedException ("Мы тут закончили!");
                 }
             }
             if (currentNode.upperNeighboor != null) {
-                if(!currentNode.upperNeighboor.visited)
-                {currentNode.upperNeighboor.value = counter+1;}
+                if(!currentNode.upperNeighboor.visited){
+                    if( !currentNode.upperNeighboor.edited){
+                        {currentNode.upperNeighboor.value = counter+1;
+                        currentNode.upperNeighboor.edited = true;}}}
                 if (currentNode.upperNeighboor.equals(destination)){
                     System.out.println("upper");
                     throw new InterruptedException ("Мы тут закончили!");}
             }
             if (currentNode.leftNeighboor != null) {
-                if(!currentNode.leftNeighboor.visited)
-                {currentNode.leftNeighboor.value = counter +1;}
+                if(!currentNode.leftNeighboor.visited){
+                    if(!currentNode.leftNeighboor.edited)
+                        {currentNode.leftNeighboor.value = counter +1;
+                        currentNode.leftNeighboor.edited = true;}}
                 if (currentNode.leftNeighboor.equals(destination)){
                     System.out.println("left");
                     throw new InterruptedException ("Мы тут закончили!");}
             }
             if (currentNode.rightNeighboor != null) {
-                if(!currentNode.rightNeighboor.visited)
-                {currentNode.rightNeighboor.value = counter+1;}
+                if(!currentNode.rightNeighboor.visited){
+                    if (!currentNode.rightNeighboor.edited){
+                        currentNode.rightNeighboor.value = counter+1;
+                        currentNode.rightNeighboor.edited=true;}}
                 if (currentNode.rightNeighboor.equals(destination)){
                     System.out.println("right");
                     throw new InterruptedException ("Мы тут закончили!");}
