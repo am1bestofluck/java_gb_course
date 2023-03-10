@@ -337,6 +337,15 @@ public class field {
         waveNode start = this.travelMap[this.entryPoint[0]][this.entryPoint[1]];
         waveNode finish = this.travelMap[this.destination[0]][this.destination[1]];
         Integer counter = 0;
+        Integer cells_with_values =0;
+        for (int i = 0; i < body.length; i++) {
+            for (int j = 0; j < body.length; j++) {
+                if (this.travelMap[i][j].value != constants.border){
+                    cells_with_values ++;
+                }
+            }
+        }
+        System.out.println(cells_with_values);
         try{
         start.traverseOnTree(start,finish,counter,this.travelMap);}
         catch (InterruptedException e){
