@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * waveNode
@@ -131,8 +133,8 @@ public class waveNode {
     public void traverseOnTree( 
         waveNode currentNode,waveNode destination,
          Integer counter, waveNode[][] desk) throws InterruptedException{
+            Queue<waveNode> testQueue = new LinkedList<>();
             // сначала условие выхода.
-
             // currentNode.value = counter;
             // System.out.println();
             currentNode.visited = true;
@@ -225,5 +227,7 @@ public class waveNode {
 
          }
     
-    public void traverseOnTree_queue(){}
+        Queue<waveNode> why = new LinkedList<>();
+        // for
+    }
         }
