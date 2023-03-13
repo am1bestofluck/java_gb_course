@@ -1,3 +1,5 @@
+package sem5.dz_att2;
+
 /**
  * Program
  */
